@@ -60,7 +60,8 @@ class SiteController extends Controller
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'maxLength' => 5,
+                'minLength' => 5
             ],
         ];
     }
@@ -95,9 +96,11 @@ class SiteController extends Controller
 
     public function actionContact()
     {
+
         $model = new ContactForm();
+//        return Yii::$app->params['sendEmail'];
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+            if ($model->sendEmail(Yii::$app->params['sendEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending email.');

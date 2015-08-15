@@ -12,7 +12,7 @@ use Yii;
 class ResetPasswordForm extends Model
 {
     public $password;
-
+    public $repeatPassword;
     /**
      * @var \common\models\User
      */
@@ -43,8 +43,14 @@ class ResetPasswordForm extends Model
     public function rules()
     {
         return [
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'required', 'message' => '密码不能为空'],
+            ['password', 'string', 'min' => 6,'tooShort' => '密码不能少于六位'],
+
+
+            ['repeatPassword', 'required', 'message' => '密码不能为空'],
+            ['repeatPassword', 'string', 'min' => 6,'tooShort' => '密码不能少于六位'],
+
+            ['repeatPassword','compare','compareAttribute' => 'password','message' => '两次密码不一致'],
         ];
     }
 

@@ -70,6 +70,10 @@ class LoginForm extends Model
     {
         if ($this->_user === false) {
             $this->_user = User::findByUsername($this->username);
+            //使用邮箱登陆
+            if(!$this->_user){
+                $this->_user = User::findByEmail($this->username);
+            }
         }
 
         return $this->_user;
